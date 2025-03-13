@@ -1,9 +1,16 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import BraveSearchTool, ScrapeWebsiteTool, FileWriterTool
 
 # If you want to run a snippet of code before or after the crew starts, 
 # you can use the @before_kickoff and @after_kickoff decorators
 # https://docs.crewai.com/concepts/crews#example-crew-class-with-decorators
+
+
+# Initiate the BraveSearchTool
+brave_search_tool = BraveSearchTool()
+scrape_website_tool = ScrapeWebsiteTool()
+file_writer_tool = FileWriterTool()
 
 @CrewBase
 class OnePager():
@@ -17,17 +24,42 @@ class OnePager():
 
 	# If you would like to add tools to your agents, you can learn more about it here:
 	# https://docs.crewai.com/concepts/agents#agent-tools
+
+	@agent
+	def question_designer(self) -> Agent:
+		return Agent(
+			config=self.agents_config['question_designer'],
+			verbose=True
+		)
+
 	@agent
 	def researcher(self) -> Agent:
 		return Agent(
 			config=self.agents_config['researcher'],
+			tools=[brave_search_tool],
 			verbose=True
 		)
+
+	@agent
+	def web_scraper(self) -> Agent:
+		return Agent(
+			config=self.agents_config['web_scraper'],
+			tools=[scrape_website_tool],
+			verbose=True
+		)
+
+	# @agent
+	# def writer(self) -> Agent:
+	# 	return Agent(
+	# 		config=self.agents_config['writer'],
+	# 		verbose=True
+	# 	)
 
 	@agent
 	def reporting_analyst(self) -> Agent:
 		return Agent(
 			config=self.agents_config['reporting_analyst'],
+			tools=[file_writer_tool],
 			verbose=True
 		)
 
@@ -35,11 +67,29 @@ class OnePager():
 	# task dependencies, and task callbacks, check out the documentation:
 	# https://docs.crewai.com/concepts/tasks#overview-of-a-task
 	@task
+	def question_design_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['question_design'],
+		)
+
+	@task
 	def research_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['research_task'],
 		)
 
+	@task
+	def web_scraping_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['web_scraping_task'],
+		)
+
+	# @task
+	# def writing_task(self) -> Task:
+	# 	return Task(
+	# 		config=self.tasks_config['writing_task']		
+	# 		)
+	
 	@task
 	def reporting_task(self) -> Task:
 		return Task(

@@ -1,11 +1,28 @@
+question_design:
+  description: >
+    Design a set of questions to ask a group of people about {topic}.
+    Make sure the questions are open-ended and can provide valuable insights.
+  expected_output: >
+    A singular question that is to be used to complete a online search about {topic}
+  agent: question_designer
+
 research_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
+    Conduct a thorough research using the question provided by the question designer.
+    Make sure you the search query is the question provided by the question designer. 
     the current date is {current_date}.
   expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
+    One link to a relevant article or source that provides information about the question. Only repsond with the link and nothing else
   agent: researcher
+
+web_scraping_task:
+  description: >
+    Extract data from websites provided by the researcher.
+    Make sure you gather valuable information quickly and efficiently.
+  expected_output: >
+    A summary of the data extracted from the websites.
+  agent: web_scraper
+
 
 reporting_task:
   description: >
