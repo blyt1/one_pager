@@ -18,7 +18,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'An update on the latest AI in the automation industry',
+        'topic': ' I want a specific update on a new technology product or process that has been developed in the last 6 months.',
         'current_date': str(datetime.now())
     }
     

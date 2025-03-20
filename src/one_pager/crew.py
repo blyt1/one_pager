@@ -48,6 +48,42 @@ class OnePager():
 			verbose=True
 		)
 
+	@agent
+	def insight_generator(self) -> Agent:
+		return Agent(
+			config=self.agents_config['insight_generator'],
+			verbose=True
+		)
+	
+	@agent
+	def question_designer2(self) -> Agent:
+		return Agent(
+			config=self.agents_config['question_designer2'],
+			verbose=True
+		)
+	
+	@agent
+	def researcher2(self) -> Agent:
+		return Agent(
+			config=self.agents_config['researcher2'],
+			tools=[brave_search_tool],
+			verbose=True
+		)
+
+	@agent 
+	def web_scraper2(self) -> Agent:
+		return Agent(
+			config=self.agents_config['web_scraper2'],
+			verbose=True
+		)
+	
+	@agent
+	def insight_generator2(self) -> Agent:
+		return Agent(
+			config=self.agents_config['insight_generator2'],
+			verbose=True
+		)
+	
 	# @agent
 	# def writer(self) -> Agent:
 	# 	return Agent(
@@ -91,6 +127,37 @@ class OnePager():
 	# 		)
 	
 	@task
+	def insight_generation_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['insight_generation_task'],
+		)
+	
+	@task
+	def question_design_task2(self) -> Task:
+		return Task(
+			config=self.tasks_config['question_design_task2'],
+		)
+	
+	@task
+	def research_task2(self) -> Task:
+		return Task(
+			config=self.tasks_config['research_task2'],
+		)
+
+	@task
+	def web_scraping_task2(self) -> Task:
+		return Task(
+			config=self.tasks_config['web_scraping_task2'],
+		)
+	
+	@task
+	def insight_generation_task2(self) -> Task:
+		return Task(
+			config=self.tasks_config['insight_generation_task2'],
+		)	
+	
+
+	@task
 	def reporting_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['reporting_task'],
@@ -106,7 +173,9 @@ class OnePager():
 		return Crew(
 			agents=self.agents, # Automatically created by the @agent decorator
 			tasks=self.tasks, # Automatically created by the @task decorator
-			process=Process.sequential,
+			# manager_llm="ollama/llama3.1",
+			# process=Process.hierarchical,
+			# planning=True,
 			verbose=True,
 			# process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/
 		)
